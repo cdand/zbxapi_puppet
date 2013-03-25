@@ -5,7 +5,7 @@ ZABBIX_URL='http://localhost/'
 ZABBIX_USER='admin'
 ZABBIX_PASSWD='zabbix'
 
-Puppet::Type.type(:zbx_hostgroup).provide(:ruby) do
+Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
 
   $zabbix = ZabbixAPI::ZabbixAPI.new(ZABBIX_URL)
   $zabbix.verify_ssl = false
