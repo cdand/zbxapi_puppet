@@ -5,7 +5,15 @@ Puppet::Type.newtype(:zbx_hostgroup) do
   ensurable
 
   newparam(:name, :namevar => true) do
-	  desc 'The name of the Zabbix HostGroup'
+    desc 'The name of the Zabbix HostGroup'
+  end
+
+  newproperty(:groupid) do
+    desc 'The Zabbix Groupid of the HostGroup'
+  end
+
+  newproperty(:internal) do
+    desc 'HostGroup is internal to Zabbix'
   end
 
 end
