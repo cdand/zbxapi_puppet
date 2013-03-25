@@ -9,11 +9,11 @@ Puppet::Type.newtype(:zbx_hostgroup) do
   end
 
   newproperty(:groupid) do
-    desc 'The Zabbix Groupid of the HostGroup'
+    desc 'The read-only Groupid of the Zabbix HostGroup'
   end
 
   newproperty(:internal) do
-    desc 'HostGroup is internal to Zabbix'
+    desc 'Read-only flag for if the HostGroup is internal to Zabbix'
   end
 
 end
