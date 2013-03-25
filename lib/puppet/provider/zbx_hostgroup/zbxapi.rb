@@ -37,12 +37,10 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
   end
 
   def groupid
-    result = $zabbix.hostgroup.get( 'output' => 'shorten', 'filter' => { 'name' => resource[:name] })
-    groupid = result[0]["groupid"]
+		@property_hash[:groupid]
   end
 
   def internal
-    result = $zabbix.hostgroup.get( 'output' => 'extend', 'filter' => { 'name' => resource[:name] })
-    internal = result[0]["internal"]
-  end
+ 		@property_hash[:internal]
+ end
 end
