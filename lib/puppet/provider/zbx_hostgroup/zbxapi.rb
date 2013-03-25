@@ -37,10 +37,12 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
 
   def create
     $zabbix.hostgroup.create( 'name' => resource[:name] )
+    @property_hash[:ensure] = :present
   end
 
   def destroy
     $zabbix.hostgroup.delete([@property_hash[:groupid]])
+    @property_hash.clear
   end
 
   # Using mk_resource_methods relieves us from having to explicitly write the
