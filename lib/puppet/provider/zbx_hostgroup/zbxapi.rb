@@ -23,12 +23,7 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
   end
 
   def exists?
-    result = $zabbix.hostgroup.get( 'output' => 'shorten', 'filter' => { 'name' => resource[:name] })
-    if result.empty?
-      false
-    else
-      true
-    end
+    @property_hash[:ensure] == :present
   end
 
   def create
