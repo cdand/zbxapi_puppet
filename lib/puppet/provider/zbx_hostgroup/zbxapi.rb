@@ -40,9 +40,7 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
   end
 
   def destroy
-    result = $zabbix.hostgroup.get( 'output' => 'shorten', 'filter' => { 'name' => resource[:name] })
-    id = result[0]["groupid"]
-    $zabbix.hostgroup.delete([id])
+    $zabbix.hostgroup.delete([@property_hash[:groupid]])
   end
 
   def groupid
