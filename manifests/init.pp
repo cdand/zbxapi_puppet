@@ -1,4 +1,4 @@
-# Class: zbxapi
+# Class: autozabbix
 # 
 # This class installs the Zabbix API Gem, zbxapi developed by Red-Tux 
 # https://github.com/red-tux/zbxapi
@@ -11,11 +11,12 @@
 #
 # Sample Usage:
 #
-# class { 'zbxapi': }
+# class { 'autozabbix': }
 #
-class zbxapi {
+class autozabbix {
 
-  package { 'zbxapi':
+  package { 'redtuxzbxapi':
+    name     => 'zbxapi',
     ensure   => present,
     provider => gem,
   }
