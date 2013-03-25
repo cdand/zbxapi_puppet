@@ -43,11 +43,17 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
     $zabbix.hostgroup.delete([@property_hash[:groupid]])
   end
 
-  def groupid
-		@property_hash[:groupid]
-  end
+  # Using mk_resource_methods relieves us from having to explicitly write the
+  # getters for 'groupid' and 'internal' properties (left commented below). I'm
+  # not sure yet how this can possibly work for setters though.
+  #
+  #  def groupid
+  #		@property_hash[:groupid]
+  #  end
+  #
+  #  def internal
+  # 		@property_hash[:internal]
+  #  end
+  mk_resource_methods
 
-  def internal
- 		@property_hash[:internal]
- end
 end
