@@ -11,6 +11,20 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
   $zabbix.verify_ssl = false
   $zabbix.login(ZABBIX_USER, ZABBIX_PASSWD)
 
+  def self.instances
+    hostgroups = $zabbix.hostgroup.get( 'output' => 'extend' )
+    hostgroups.collect do |hostgroup|
+      name = hostgroup["name"]
+      groupid = hostgroup["groupid"]
+      internal = hostgroup["internal"]
+      new( :name    => name,
+          :ensure   => :present,
+          :groupid  => groupid,
+          :internal => internal,
+         )
+    end
+  end
+
   def exists?
     result = $zabbix.hostgroup.get( 'output' => 'shorten', 'filter' => { 'name' => resource[:name] })
     if result.empty?
