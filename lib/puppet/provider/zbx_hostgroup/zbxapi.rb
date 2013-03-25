@@ -14,13 +14,10 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
   def self.instances
     hostgroups = $zabbix.hostgroup.get( 'output' => 'extend' )
     hostgroups.collect do |hostgroup|
-      name = hostgroup["name"]
-      groupid = hostgroup["groupid"]
-      internal = hostgroup["internal"]
-      new( :name    => name,
+			new( :name    => hostgroup["name"],
           :ensure   => :present,
-          :groupid  => groupid,
-          :internal => internal,
+          :groupid  => hostgroup["groupid"],
+          :internal => hostgroup["internal"],
          )
     end
   end
@@ -42,5 +39,15 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
     result = $zabbix.hostgroup.get( 'output' => 'shorten', 'filter' => { 'name' => resource[:name] })
     id = result[0]["groupid"]
     $zabbix.hostgroup.delete([id])
+  end
+
+  def groupid
+    result = $zabbix.hostgroup.get( 'output' => 'shorten', 'filter' => { 'name' => resource[:name] })
+    groupid = result[0]["groupid"]
+  end
+
+  def internal
+    result = $zabbix.hostgroup.get( 'output' => 'extend', 'filter' => { 'name' => resource[:name] })
+    internal = result[0]["internal"]
   end
 end
