@@ -22,6 +22,15 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
     end
   end
 
+  def self.prefetch(resources)
+    hostgroups = instances
+    resources.keys.each do |name|
+      if provider = hostgroups.find{ |hostgroup| hostgroup.name == name }
+        resources[name].provider = provider
+      end
+    end
+  end
+
   def exists?
     @property_hash[:ensure] == :present
   end
