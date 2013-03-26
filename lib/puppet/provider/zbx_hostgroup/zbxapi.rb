@@ -43,6 +43,7 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
 
   def destroy
     # FIXME This could be made more efficient by sending a list of hostid to be deleting in one API request.
+		# FIXME I suspect this has a problem when applied via a resources { 'zbx_hostgroup': purge => true }, unless there is a way to know how the destroy was invoked.
     if resource[:purge] == :true then
       @property_hash[:hosts].each do |host|
         $zabbix.host.delete("hostid" => host["hostid"])
