@@ -23,6 +23,8 @@ Puppet::Type.newtype(:zbx_hostgroup) do
 			well as the Hostgroup itself. Be careful with this, make sure you know
 			what will happen if you enable this.
     EOT
+		defaultto :false
+		newvalues(:true, :false)
   end
 
 end
