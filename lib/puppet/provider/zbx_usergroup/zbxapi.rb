@@ -38,8 +38,11 @@ Puppet::Type.type(:zbx_usergroup).provide(:zbxapi) do
   end
 
   def create
-    $zabbix.usergroup.create( 'name' => resource[:name] )
-    @property_hash[:ensure] = :present
+    $zabbix.usergroup.create( 'name' => resource[:name], 'gui_access' => resource[:authentication], 'users_status' => resource[:enabled], 'debug_mode' => resource[:debug] )
+    @property_hash[:ensure]         = :present
+    @property_hash[:authentication] = resource[:authentication]
+    @property_hash[:enabled]        = resource[:enabled]
+    @property_hash[:debug]          = resource[:debug]
   end
 
   def destroy
@@ -51,5 +54,22 @@ Puppet::Type.type(:zbx_usergroup).provide(:zbxapi) do
   # getters for all properties. I'm not sure yet how this can possibly work
 	# for setters though.
   mk_resource_methods 
+
+	# Despite Puppet Labs docs, it would appear mk_resource methods is only
+	# useful for getters. We need to create all the different setters.
+  def authentication=(value)
+    $zabbix.usergroup.update( 'usrgrpid' => @property_hash[:usrgrpid], 'gui_access' => resource[:authentication] )
+		@property_hash[:authentication] = value
+  end
+
+  def enabled=(value)
+    $zabbix.usergroup.update( 'usrgrpid' => @property_hash[:usrgrpid], 'users_status' => resource[:enabled] )
+		@property_hash[:enabled] = value
+  end
+
+  def debug=(value)
+    $zabbix.usergroup.update( 'usrgrpid' => @property_hash[:usrgrpid], 'debug_mode' => resource[:debug] )
+		@property_hash[:debug] = value
+  end
 
 end

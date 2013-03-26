@@ -21,20 +21,17 @@ Puppet::Type.newtype(:zbx_usergroup) do
 			internal = Internal authentication only
 			disabled = No Web GUI access
 	  EOT
-#		defaultto :system
-#		newvalues( :system, :internal, :disabled )
+		defaultto 0
 	end
 
 	newproperty(:enabled) do
 		desc 'Is this Usergroup enabled'
-#		defaultto :true
-#		newvalues( :true, :false )
+		defaultto 0
 	end
 
 	newproperty(:debug) do
 		desc 'Is Debug mode enabled for members of this Usergroup'
-#		defaultto :false
-#		newvalues( :true, :false )
+		defaultto 0
 	end
 
 end
