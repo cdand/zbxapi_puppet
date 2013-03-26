@@ -43,10 +43,10 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
 
   def destroy
     # FIXME This could be made more efficient by sending a list of hostid to be deleting in one API request.
-    # FIXME Would be better if we sent at a Puppet notice message for each host we deleted.
     if resource[:purge] == :true then
       @property_hash[:hosts].each do |host|
         $zabbix.host.delete("hostid" => host["hostid"])
+        Puppet.notice( resource.to_s + " - Purge Zabbix Host => " + host["host"] + " [" + host["hostid"] + "]")
       end
     end
     $zabbix.hostgroup.delete([@property_hash[:groupid]])
