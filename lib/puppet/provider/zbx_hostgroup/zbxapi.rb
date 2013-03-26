@@ -12,12 +12,13 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
   $zabbix.login(ZABBIX_USER, ZABBIX_PASSWD)
 
   def self.instances
-    hostgroups = $zabbix.hostgroup.get( 'output' => 'extend' )
+    hostgroups = $zabbix.hostgroup.get( 'output' => 'extend', 'selectHosts' => 'extend' )
     hostgroups.collect do |hostgroup|
 			new( :name    => hostgroup["name"],
           :ensure   => :present,
           :groupid  => hostgroup["groupid"],
           :internal => hostgroup["internal"],
+          :hosts    => hostgroup["hosts"],
          )
     end
   end
@@ -41,6 +42,11 @@ Puppet::Type.type(:zbx_hostgroup).provide(:zbxapi) do
   end
 
   def destroy
+    if resource[:purge]
+      @property_hash[:hosts].each do |host|
+        $zabbix.host.delete("hostid" => host["hostid"])
+      end
+    end
     $zabbix.hostgroup.delete([@property_hash[:groupid]])
     @property_hash.clear
   end
