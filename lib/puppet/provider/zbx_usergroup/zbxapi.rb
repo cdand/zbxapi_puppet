@@ -14,12 +14,12 @@ Puppet::Type.type(:zbx_usergroup).provide(:zbxapi) do
   def self.instances
     usergroups = $zabbix.usergroup.get( 'output' => 'extend' )
     usergroups.collect do |usergroup|
-			new( :name        => usergroup["name"],
-          :ensure       => :present,
-          :usrgrpid     => usergroup["usrgrpid"],
-          :gui_access   => usergroup["gui_access"],
-          :users_status => usergroup["users_status"],
-          :debug_mode   => usergroup["debug_mode"],
+			new( :name            => usergroup["name"],
+          :ensure           => :present,
+          :usrgrpid         => usergroup["usrgrpid"],
+          :authentication   => usergroup["gui_access"],
+          :enabled          => usergroup["users_status"],
+          :debug            => usergroup["debug_mode"],
          )
     end
   end

@@ -12,7 +12,7 @@ Puppet::Type.newtype(:zbx_usergroup) do
     desc 'The read-only usergrpid of the Zabbix Usergroup'
   end
 	
-	newproperty(:gui_access) do
+	newproperty(:authentication) do
 		desc <<-EOT
 		  Which authentication method do members of this Usergroup use to
 			gain access to the Zabbix Web GUI.
@@ -25,13 +25,13 @@ Puppet::Type.newtype(:zbx_usergroup) do
 #		newvalues( :system, :internal, :disabled )
 	end
 
-	newproperty(:users_status) do
+	newproperty(:enabled) do
 		desc 'Is this Usergroup enabled'
 #		defaultto :true
 #		newvalues( :true, :false )
 	end
 
-	newproperty(:debug_mode) do
+	newproperty(:debug) do
 		desc 'Is Debug mode enabled for members of this Usergroup'
 #		defaultto :false
 #		newvalues( :true, :false )
