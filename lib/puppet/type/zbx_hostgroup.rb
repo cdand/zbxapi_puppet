@@ -18,13 +18,13 @@ Puppet::Type.newtype(:zbx_hostgroup) do
 
   newparam(:purge) do
     desc <<-EOT
-		  Hostgroups cannot be deleted from Zabbix when they still have dependant
-			Hosts. When set to true, this flag will delete all dependant Hosts as
-			well as the Hostgroup itself. Be careful with this, make sure you know
-			what will happen if you enable this.
+      Hostgroups cannot be deleted from Zabbix when they still have dependant
+      Hosts. When set to true, this flag will delete all dependant Hosts as
+      well as the Hostgroup itself. Be careful with this, make sure you know
+      what will happen if you enable this.
     EOT
-		defaultto :false
-		newvalues(:true, :false)
+    defaultto :false
+    newvalues(:true, :false)
   end
 
 end
