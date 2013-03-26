@@ -43,7 +43,7 @@ Puppet::Type.type(:zbx_usergroup).provide(:zbxapi) do
   end
 
   def destroy
-    $zabbix.usergroup.delete([@property_hash[:usergrpid]])
+    $zabbix.usergroup.delete([@property_hash[:usrgrpid]])
     @property_hash.clear
   end
 
