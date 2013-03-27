@@ -14,13 +14,13 @@ Puppet::Type.type(:zbx_usergroup).provide(:zbxapi) do
   def self.instances
     usergroups = $zabbix.usergroup.get( 'output' => 'extend' )
     usergroups.collect do |usergroup|
-			new( :name            => usergroup["name"],
-          :ensure           => :present,
-          :usrgrpid         => usergroup["usrgrpid"],
-          :authentication   => usergroup["gui_access"],
-          :enabled          => usergroup["users_status"],
-          :debug            => usergroup["debug_mode"],
-         )
+      new( :name            => usergroup["name"],
+           :ensure           => :present,
+           :usrgrpid         => usergroup["usrgrpid"],
+           :authentication   => usergroup["gui_access"],
+           :enabled          => usergroup["users_status"],
+           :debug            => usergroup["debug_mode"],
+      )
     end
   end
 
@@ -55,21 +55,31 @@ Puppet::Type.type(:zbx_usergroup).provide(:zbxapi) do
 	# for setters though.
   mk_resource_methods 
 
-	# Despite Puppet Labs docs, it would appear mk_resource methods is only
-	# useful for getters. We need to create all the different setters.
+  # Despite Puppet Labs docs, it would appear mk_resource methods is only
+  # useful for getters. We need to create all the different setters.
+  def initialize(value={})
+    super(value)
+    @property_flush = { 'usrgrpid' => @property_hash[:usrgrpid] }
+  end
+
   def authentication=(value)
-    $zabbix.usergroup.update( 'usrgrpid' => @property_hash[:usrgrpid], 'gui_access' => resource[:authentication] )
-		@property_hash[:authentication] = value
+    @property_flush['gui_access'] = value
   end
 
   def enabled=(value)
-    $zabbix.usergroup.update( 'usrgrpid' => @property_hash[:usrgrpid], 'users_status' => resource[:enabled] )
-		@property_hash[:enabled] = value
+    @property_flush['users_status'] = value
   end
 
   def debug=(value)
-    $zabbix.usergroup.update( 'usrgrpid' => @property_hash[:usrgrpid], 'debug_mode' => resource[:debug] )
-		@property_hash[:debug] = value
+    @property_flush['debug_mode'] = value
+  end
+
+  def flush
+    # FIXME need to put in code to make sure this doesn't run on create/delete
+    if @property_flush
+      $zabbix.usergroup.update( @property_flush )
+    end
+    @property_hash = resource.to_hash
   end
 
 end
