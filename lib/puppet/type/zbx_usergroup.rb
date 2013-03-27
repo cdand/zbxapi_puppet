@@ -12,65 +12,65 @@ Puppet::Type.newtype(:zbx_usergroup) do
     desc 'The read-only usergrpid of the Zabbix Usergroup'
   end
 	
-	newproperty(:authentication) do
-		desc <<-EOT
-		  Which authentication method do members of this Usergroup use to
-			gain access to the Zabbix Web GUI.
+  newproperty(:authentication) do
+    desc <<-EOT
+      Which authentication method do members of this Usergroup use to
+      gain access to the Zabbix Web GUI.
 
-			system   = System default authentication method (e.g. internal, http, ldap)
-			internal = Internal authentication only
-			disabled = No Web GUI access
-	  EOT
-		defaultto :system
-		newvalues( :system, :internal, :disabled )
-		munge do |value|
-			case value
-			when "system"
-				0
-			when "internal"
-				1
-			when "disabled"
-				2
-			end
-		end
-	end
+      system   = System default authentication method (e.g. internal, http, ldap)
+      internal = Internal authentication only
+      disabled = No Web GUI access
+    EOT
+    defaultto :system
+    newvalues( :system, :internal, :disabled )
+    munge do |value|
+      case value
+      when "system"
+        0
+      when "internal"
+        1
+      when "disabled"
+        2
+      end
+    end
+  end
 
-	newproperty(:enabled) do
-		desc <<-EOT
+  newproperty(:enabled) do
+    desc <<-EOT
       Is this Usergroup enabled.
 
-			true  = Member of this Usergroup can login
-			false = Members of this usergroup cannot login
-		EOT
-		defaultto :true
-		newvalues( :true, :false )
-		munge do |value|
-			case value
-			when "true"
-				0
-			when "false"
-				1
-			end
-		end
-	end
+      true  = Member of this Usergroup can login
+      false = Members of this usergroup cannot login
+    EOT
+    defaultto :true
+    newvalues( :true, :false )
+    munge do |value|
+      case value
+      when "true"
+        0
+      when "false"
+        1
+      end
+    end
+  end
 
-	newproperty(:debug) do
-		desc <<-EOT
+  newproperty(:debug) do
+    desc <<-EOT
       Is Debug mode enabled for members of this Usergroup'
 
-			true
-			false
-		EOT
-		defaultto :false
-		newvalues( :true, :false )
-		munge do |value|
-			case value
-			when "true"
-				1
-			when "false"
-				0
-			end
-		end
-	end
+      true
+      false
+    EOT
+    defaultto :false
+    newvalues( :true, :false )
+    munge do |value|
+      case value
+      when "true"
+        1
+      when "false"
+        0
+      end
+    end
+  end
 
 end
