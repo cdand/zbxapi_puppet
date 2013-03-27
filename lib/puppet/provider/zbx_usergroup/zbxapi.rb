@@ -59,7 +59,11 @@ Puppet::Type.type(:zbx_usergroup).provide(:zbxapi) do
   # useful for getters. We need to create all the different setters.
   def initialize(value={})
     super(value)
-    @property_flush = { 'usrgrpid' => @property_hash[:usrgrpid] }
+    @property_flush = {}
+  end
+
+  def usrgrpid=(value)
+    @property_flush['usrgrpid'] = value
   end
 
   def authentication=(value)
@@ -75,8 +79,8 @@ Puppet::Type.type(:zbx_usergroup).provide(:zbxapi) do
   end
 
   def flush
-    # FIXME need to put in code to make sure this doesn't run on create/delete
-    if @property_flush
+    unless @property_flush.empty?
+			@property_flush['usrgrpid'] = @property_hash[:usrgrpid]
       $zabbix.usergroup.update( @property_flush )
     end
     @property_hash = resource.to_hash
