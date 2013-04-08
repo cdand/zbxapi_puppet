@@ -21,15 +21,15 @@ Puppet::Type.newtype(:zbx_usergroup) do
       internal = Internal authentication only
       disabled = No Web GUI access
     EOT
-    defaultto :system
-    newvalues( :system, :internal, :disabled )
+    defaultto 'system'
+    newvalues( 'system', 'internal', 'disabled' )
     munge do |value|
       case value
-      when "system"
+      when 'system'
         0
-      when "internal"
+      when 'internal'
         1
-      when "disabled"
+      when 'disabled'
         2
       end
     end
@@ -42,13 +42,13 @@ Puppet::Type.newtype(:zbx_usergroup) do
       true  = Member of this Usergroup can login
       false = Members of this usergroup cannot login
     EOT
-    defaultto :true
-    newvalues( :true, :false )
+    defaultto 'true'
+    newvalues( 'true', 'false' )
     munge do |value|
       case value
-      when "true"
+      when 'true'
         0
-      when "false"
+      when 'false'
         1
       end
     end
@@ -61,13 +61,13 @@ Puppet::Type.newtype(:zbx_usergroup) do
       true
       false
     EOT
-    defaultto :false
-    newvalues( :true, :false )
+    defaultto 'false'
+    newvalues( 'true', 'false' )
     munge do |value|
       case value
-      when "true"
+      when 'true'
         1
-      when "false"
+      when 'false'
         0
       end
     end
