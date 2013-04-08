@@ -14,34 +14,51 @@ Puppet::Type.newtype(:zbx_user) do
 
   newproperty(:firstname) do
     desc 'The firstname of the Zabbix User'
+    defaultto 'Default'
   end
 
   newproperty(:surname) do
     desc 'The surname of the Zabbix User'
+    defaultto 'User'
   end
 
   newproperty(:usertype) do
     desc 'The usertype of the Zabbix User'
-    defaultto :user
-    newvalues( :user, :admin, :super )
+    defaultto 'user'
+    newvalues( 'user', 'admin', 'super' )
     munge do |value|
       case value
-      when "user"
+      when 'user'
         1
-      when "admin"
+      when 'admin'
         2
-      when "super"
+      when 'super'
         3
       end
     end
   end
 
-  newproperty(:usergroup) do
+  newproperty(:usergroups, :array_matching => :all) do
     desc 'The usergroup of the Zabbix User'
   end
 
-  autorequire(:usergroup) do
-    self[:usergroup]
+  autorequire(:zbx_usergroup) do
+    self[:usergroups]
   end
+
+##  Just leaving this out for now...it's not exactly critical.
+#  newproperty(:theme) do
+#    desc <<-EOT
+#      Zabbix theme for user's GUI access
+#
+#      default      = Use the system wide default
+#      classic      = Classic theme
+#      originalblue = Original blue them
+#      darkblue     = Dark blue them
+#      darkorange   = Dark orange them
+#    EOT
+#    defaultto :default
+#    newvalues( :default, :classic, :originalblue, :darkblue, :darkorange )
+#	end
 
 end
