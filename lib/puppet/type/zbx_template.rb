@@ -8,4 +8,8 @@ Puppet::Type.newtype(:zbx_template) do
     desc 'The name of the Zabbix Template'
   end
 
+	newproperty(:visiblename) do
+    desc 'The visible name of the Zabbix Template'
+  end
+
 end
