@@ -12,15 +12,19 @@ Puppet::Type.type(:zbx_user).provide(:zbxapi) do
   $zabbix.login(ZABBIX_USER, ZABBIX_PASSWD)
 
   def self.instances
-    users = $zabbix.user.get( 'output' => 'extend' )
+    users = $zabbix.user.get( 'output' => 'extend', 'selectUsrgrps' => 'extend' )
     users.collect do |user|
-    new( :name      => user["alias"],
-         :ensure    => :present,
-         :userid    => user["userid"],
-         :usergroup => user["usrgrpid"],
-         :firstname => user["name"],
-         :surname   => user["surname"],
-         :usertype  => user["type"],
+      usrgrps = []
+      user['usrgrps'].each do |usrgrp|
+        usrgrps << usrgrp['name']
+      end
+      new( :name       => user["alias"],
+           :ensure     => :present,
+           :userid     => user["userid"],
+           :usergroups => usrgrps,
+           :firstname  => user["name"],
+           :surname    => user["surname"],
+           :usertype   => user["type"],
        )
     end
   end
@@ -39,13 +43,14 @@ Puppet::Type.type(:zbx_user).provide(:zbxapi) do
   end
 
   def create
+    usrgrpids = $zabbix.usergroup.get( 'output' => 'shorten', 'filter' => {'name' => resource[:usergroups]}).map{ |item| item.values }.flatten
     $zabbix.user.create(
       'alias' => resource[:name],
       'type' => resource[:usertype],
       'name' => resource[:firstname],
       'surname' => resource[:surname],
       'passwd' => 'blah',
-      'usrgrps' => [{'usrgrpid' => '7'}]
+      'usrgrps' => usrgrpids,
     )
     @property_hash[:ensure] = :present
     @property_hash[:usertype] = resource[:usertype]
@@ -82,6 +87,14 @@ Puppet::Type.type(:zbx_user).provide(:zbxapi) do
 
   def surname=(value)
     @property_flush['surname'] = value
+  end
+
+  def usergroups=(value)
+    #FIXME There is some isse with the ordering of usergroups array, if not in usrgrpid numerical order Puppet keeps trying to make a change.
+    # Can't quite figure out where this is happening.
+    usrgrpids = $zabbix.usergroup.get( 'output' => 'shorten', 'filter' => {'name' => value}).map{ |item| item.values }.flatten
+    puts usrgrpids
+    @property_flush['usrgrps'] = usrgrpids
   end
 
   def flush
