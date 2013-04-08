@@ -1,4 +1,5 @@
-#require "zbxapi"
+require "zbxapi"
+
 module Zabbix
 
 ZABBIX_URL='http://localhost/'
