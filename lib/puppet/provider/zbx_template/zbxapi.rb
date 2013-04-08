@@ -1,15 +1,6 @@
-#require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'puppet_x', 'helper.rb'))
-require 'zbxapi'
-
-ZABBIX_URL='http://localhost/'
-ZABBIX_USER='admin'
-ZABBIX_PASSWD='zabbix'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'puppet_x', 'zbxapi', 'helper.rb'))
 
 Puppet::Type.type(:zbx_template).provide(:zbxapi) do
-
-  $zabbix = ZabbixAPI::ZabbixAPI.new(ZABBIX_URL)
-  $zabbix.verify_ssl = false
-  $zabbix.login(ZABBIX_USER, ZABBIX_PASSWD)
 
   def self.instances
     templates = $zabbix.template.get( 'output' => 'extend' )
