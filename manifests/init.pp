@@ -1,6 +1,6 @@
 # Class: zbxapi
-# 
-# This class installs the Zabbix API Gem, zbxapi developed by Red-Tux 
+#
+# This class installs the Zabbix API Gem, zbxapi developed by Red-Tux
 # https://github.com/red-tux/zbxapi
 #
 # Parameters: none
@@ -15,8 +15,7 @@
 #
 class zbxapi {
 
-  package { 'redtuxzbxapi':
-    name     => 'zbxapi',
+  package { 'zbxapi':
     ensure   => present,
     provider => gem,
   }
