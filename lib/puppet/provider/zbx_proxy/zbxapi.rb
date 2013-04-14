@@ -43,9 +43,12 @@ Puppet::Type.type(:zbx_proxy).provide(:zbxapi) do
   end
 
   def create
+    # FIXME As noted in the corresponding type, the Zabbix API has a bug
+    # (ZBX6361) related to creating and modifying passive proxies This method
+    # will create a passive proxy but not set the ip, dns or port.
     $zabbix.proxy.create( 'host' => resource[:name],
-											 	  'status' => resource[:status],
-												  'interfaces' => [{'ip' => resource[:ip], 'dns' => resource[:dns], 'port' => resource[:port], 'useip' => resource[:useip]}] )
+                          'status' => resource[:status],
+                          'interfaces' => [{'ip' => resource[:ip], 'dns' => resource[:dns], 'port' => resource[:port], 'useip' => resource[:useip]}] )
     @property_hash[:ensure] = :present
   end
 
@@ -64,12 +67,12 @@ Puppet::Type.type(:zbx_proxy).provide(:zbxapi) do
   def initialize(value={})
     super(value)
     @property_flush = {}
-		@property_flush['interfaces'] = [{}]
+    @property_flush['interfaces'] = [{}]
   end
 
-	def status=(value)
+  def status=(value)
     @property_flush['status'] = value
-	end
+  end
 
   def ip=(value)
     @property_flush['interfaces'].first['ip'] = value
@@ -88,13 +91,15 @@ Puppet::Type.type(:zbx_proxy).provide(:zbxapi) do
   end
 
   def flush
-		# FIXME Currently can't convert a passive proxy back to an active proxy because the interfaces array is empty.
-    unless @property_flush['interfaces'].first.empty?
-			@property_flush['proxyid'] = @property_hash[:proxyid]
+    # FIXME As noted in the corresponding type, the Zabbix API has a bug (ZBX6361)
+    # related to creating and modifying passive proxies This method will
+    # attempt to modify the ip, port, dns setting for a passive proxy but it
+    # will always not get set.
+    unless @property_flush == [{}]
+      @property_flush['proxyid'] = @property_hash[:proxyid]
       $zabbix.proxy.update( @property_flush )
     end
     @property_hash = resource.to_hash
   end
-
 
 end
