@@ -3,8 +3,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'pu
 Puppet::Type.type(:zbx_proxy).provide(:zbxapi) do
 
   def self.instances
-    proxys = $zabbix.proxy.get( 'output' => 'extend', 'selectInterfaces' => 'extend' )
-    proxys.collect do |proxy|
+    proxies = $zabbix.proxy.get( 'output' => 'extend', 'selectInterfaces' => 'extend' )
+    proxies.collect do |proxy|
       if proxy["interfaces"].empty? then
         new( :name        => proxy["host"],
              :ensure      => :present,
@@ -30,9 +30,9 @@ Puppet::Type.type(:zbx_proxy).provide(:zbxapi) do
   end
 
   def self.prefetch(resources)
-    proxys = instances
+    proxies = instances
     resources.keys.each do |name|
-      if provider = proxys.find{ |proxy| proxy.name == name }
+      if provider = proxies.find{ |proxy| proxy.name == name }
         resources[name].provider = provider
       end
     end
