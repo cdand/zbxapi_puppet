@@ -9,6 +9,9 @@ Puppet::Type.type(:zbx_template_item).provide(:zbxapi) do
            :ensure => :present,
            :itemid => item["itemid"],
            :hostid => item["hostid"],
+           :delay  => item["delay"],
+           :key_   => item["key_"],
+           :type   => item["type"],
       )
     end
   end
