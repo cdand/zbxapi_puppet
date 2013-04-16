@@ -39,7 +39,15 @@ Puppet::Type.newtype(:zbx_user) do
   end
 
   newproperty(:usergroups, :array_matching => :all) do
-    desc 'The usergroup of the Zabbix User'
+    desc <<-EOT
+      Array of Usergroups the Zabbix User is a member of.
+
+			e.g. ['Zabbix Administrators', 'Support Staff']
+
+      Note, currently the array must be in Usergroup ID numerical order. If you
+      see Puppet reports frequently changing a User's group check the order in which
+      Puppet says it is changing them from and to.
+    EOT
   end
 
   autorequire(:zbx_usergroup) do
