@@ -133,7 +133,7 @@ Puppet::Type.newtype(:zbx_template_item) do
         1
       when 'log'
         2
-      when 'number unsigned'
+      when 'numeric unsigned'
         3
       when 'text'
         4
