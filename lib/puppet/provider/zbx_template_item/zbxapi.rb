@@ -5,13 +5,15 @@ Puppet::Type.type(:zbx_template_item).provide(:zbxapi) do
   def self.instances
     items = $zabbix.item.get( 'output' => 'extend', 'templated' => true, 'inherited' => false )
     items.collect do |item|
-      new( :name   => item["name"],
-           :ensure => :present,
-           :itemid => item["itemid"],
-           :hostid => item["hostid"],
-           :delay  => item["delay"],
-           :key_   => item["key_"],
-           :type   => item["type"],
+      new( :name        => item["name"],
+           :ensure      => :present,
+           :itemid      => item["itemid"],
+           :hostid      => item["hostid"],
+           :delay       => item["delay"],
+           :key_        => item["key_"],
+           :interfaceid => item["interfaceid"],
+           :value_type  => item["value_type"],
+           :type        => item["type"],
       )
     end
   end
@@ -30,7 +32,15 @@ Puppet::Type.type(:zbx_template_item).provide(:zbxapi) do
   end
 
   def create
-    $zabbix.item.create( 'name' => resource[:name] )
+    hostid = $zabbix.template.get( 'output' => 'shorten', 'filter' => { 'name' => resource[:template]} )
+    resource[:hostid] = hostid.first["templateid"]
+    $zabbix.item.create( 'name'        => resource[:name],
+                         'hostid'      => resource[:hostid],
+                         'delay'       => resource[:delay],
+                         'key_'        => resource[:key_],
+                         'interfaceid' => resource[:interfaceid],
+                         'value_type'  => resource[:value_type],
+                         'type'        => resource[:type] )
     @property_hash[:ensure] = :present
   end
 

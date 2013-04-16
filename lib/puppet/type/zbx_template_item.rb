@@ -18,7 +18,13 @@ Puppet::Type.newtype(:zbx_template_item) do
 
   newproperty(:hostid) do
     desc <<-EOT
-      ID of the host that the item belongs to.
+      ID of the template that the item belongs to.
+    EOT
+  end
+
+  newproperty(:template) do
+    desc <<-EOT
+      Name of the template that the item belongs to.
     EOT
   end
 
@@ -35,6 +41,12 @@ Puppet::Type.newtype(:zbx_template_item) do
   newproperty(:key_) do
     desc <<-EOT
       Item key.
+    EOT
+  end
+
+  newproperty(:interfaceid) do
+    desc <<-EOT
+      ID of the item's host interface.
     EOT
   end
 
@@ -97,6 +109,34 @@ Puppet::Type.newtype(:zbx_template_item) do
         15
       when 'JMX agent'
         16
+      end
+    end
+  end
+
+  newproperty(:value_type) do
+    desc <<-EOT
+    Type of information of the item.
+
+    'numeric float'
+    'character'
+    'log'
+    'numeric unsigned'
+    'text'
+    EOT
+    defaultto 'numeric unsigned'
+    newvalues()
+    munge do |value|
+      case value
+      when 'numeric float'
+        0
+      when 'character'
+        1
+      when 'log'
+        2
+      when 'number unsigned'
+        3
+      when 'text'
+        4
       end
     end
   end
