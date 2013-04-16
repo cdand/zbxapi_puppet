@@ -8,32 +8,41 @@ Puppet::Type.newtype(:zbx_template) do
     desc 'The name of the Zabbix Template'
   end
 
-	newproperty(:visiblename) do
-		#FIXME If a visiblename is set and then removed Puppet doesn't remove the visible name from Zabbix configuration.
-		#      isn't as simple as just setting a blank default.
+  newproperty(:visiblename) do
+    #FIXME If a visiblename is set and then removed Puppet doesn't remove the
+    #visible name from Zabbix configuration. Isn't as simple as just setting a
+    #blank default.
     desc 'The visible name of the Zabbix Template'
   end
 
   newproperty(:hostgroups, :array_matching => :all) do
     desc <<-EOT
       Array of Hostgroups to add the template to.
-			
-			(default) ['Templates']
-
-			e.g. ['Templates', 'Linux templates']
+      
+      (default) ['Templates']
+      
+      e.g. ['Templates', 'Linux templates']
+      
+      Note, currently the array must be in Hostgroup ID numerical order. If you
+      see Puppet reports frequently changing a Template's group check the order in
+      which Puppet says it is changing them from and to.
     EOT
-		defaultto ['Templates']
+    defaultto ['Templates']
   end
 
   newproperty(:parents, :array_matching => :all) do
     desc <<-EOT
       Array of parent templates to link the template to.
-			
-			(default) [] = empty array
-
-			e.g. ['Template Ruckus Controller', 'Templates SNMP Generic']
+      
+      (default) [] = empty array
+      
+      e.g. ['Template Ruckus Controller', 'Templates SNMP Generic']
+      
+      Note, currently the array must be in Template ID numerical order. If you see
+      Puppet reports frequently changing a Templates's parent list check the order in
+      which Puppet says it is changing them from and to.
     EOT
- 		defaultto []
- end
+    defaultto []
+  end
 
 end
