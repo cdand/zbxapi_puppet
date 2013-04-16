@@ -3,13 +3,20 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'pu
 Puppet::Type.type(:zbx_template_discoveryrule).provide(:zbxapi) do
 
   def self.instances
+    #We pull in a list of all templates here so that we can set the value of
+    #@property_flush[:template] to satisfy Puppet's desire to change/set this.
+    #This add computational complexity, but saves having thousands of API calls
+    #later on.
+    templates = $zabbix.template.get( 'output' => 'extend' )
     discoveryrules = $zabbix.discoveryrule.get( 'output' => 'extend', 'templated' => true, 'inherited' => false)
     discoveryrules.collect do |discoveryrule|
+      template = templates.detect { |template| template["hostid"] == discoveryrule["hostid"] }["host"]
       new( :name                  => discoveryrule["name"],
            :ensure                => :present,
            :itemid                => discoveryrule["itemid"],
            :delay                 => discoveryrule["delay"],
            :hostid                => discoveryrule["hostid"],
+           :template              => template,
            :interfaceid           => discoveryrule["interfaceid"],
            :key_                  => discoveryrule["key_"],
            :type                  => discoveryrule["type"],
