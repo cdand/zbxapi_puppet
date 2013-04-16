@@ -18,7 +18,9 @@ Puppet::Type.newtype(:zbx_proxy) do
   end
 
   newproperty(:proxyid) do
-    desc 'The read-only proxyid of the Zabbix proxy'
+    desc <<-EOT
+      (read-only) The proxyid of the Zabbix proxy.
+    EOT
   end
 
   newproperty(:status) do
@@ -42,7 +44,7 @@ Puppet::Type.newtype(:zbx_proxy) do
 
   newproperty(:lastaccess) do
     desc <<-EOT
-  		The read-only seconds elapsed since the proxy last connected to the server
+      (read-only) Seconds elapsed since the proxy last connected to the server.
 		EOT
   end
 
