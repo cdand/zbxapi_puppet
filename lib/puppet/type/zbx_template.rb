@@ -30,6 +30,10 @@ Puppet::Type.newtype(:zbx_template) do
     defaultto ['Templates']
   end
 
+  autorequire(:zbx_hostgroup) do
+    self[:hostgroups]
+  end
+
   newproperty(:parents, :array_matching => :all) do
     desc <<-EOT
       Array of parent templates to link the template to.
