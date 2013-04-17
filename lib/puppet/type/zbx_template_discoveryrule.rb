@@ -35,6 +35,10 @@ Puppet::Type.newtype(:zbx_template_discoveryrule) do
     EOT
   end
 
+  autorequire(:zbx_template) do
+    self[:template]
+  end
+
   newproperty(:interfaceid) do
     desc <<-EOT
       ID of the LLD rule's host interface.
