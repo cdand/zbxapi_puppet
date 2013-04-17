@@ -110,6 +110,98 @@ Puppet::Type.type(:zbx_template_discoveryrule).provide(:zbxapi) do
     @property_flush = {}
   end
 
+  def delay=(value)
+    @property_flush['delay'] = value
+  end
+
+  def key_=(value)
+    @property_flush['key_'] = value
+  end
+
+  def type=(value)
+    @property_flush['type'] = value
+  end
+
+  def authtype=(value)
+    @property_flush['authtype'] = value
+  end
+
+  def delay_flex=(value)
+    @property_flush['delay_flex'] = value
+  end
+
+  def description=(value)
+    @property_flush['description'] = value
+  end
+
+  def filter=(value)
+    @property_flush['filter'] = value
+  end
+
+  def ipmi_sensor=(value)
+    @property_flush['ipmi_sensor'] = value
+  end
+
+  def lifetime=(value)
+    @property_flush['lifetime'] = value
+  end
+
+  def params=(value)
+    @property_flush['params'] = value
+  end
+
+  def password=(value)
+    @property_flush['password'] = value
+  end
+
+  def port=(value)
+    @property_flush['port'] = value
+  end
+
+  def privatekey=(value)
+    @property_flush['privatekey'] = value
+  end
+
+  def publickey=(value)
+    @property_flush['publickey'] = value
+  end
+
+  def snmp_community=(value)
+    @property_flush['snmp_community'] = value
+  end
+
+  def snmp_oid=(value)
+    @property_flush['snmp_oid'] = value
+  end
+
+  def snmpv3_authpassphrase=(value)
+    @property_flush['snmpv3_authpassphrase'] = value
+  end
+
+  def snmpv3_privpassphrase=(value)
+    @property_flush['snmpv3_privpassphrase'] = value
+  end
+
+  def snmpv3_securitylevel=(value)
+    @property_flush['snmpv3_securitylevel'] = value
+  end
+
+  def snmpv3_securityname=(value)
+    @property_flush['snmpv3_securityname'] = value
+  end
+
+  def status=(value)
+    @property_flush['status'] = value
+  end
+
+  def trapper_hosts=(value)
+    @property_flush['trapper_hosts'] = value
+  end
+
+  def username=(value)
+    @property_flush['username'] = value
+  end
+
   def flush
     unless @property_flush.empty?
       @property_flush['discoveryruleid'] = @property_hash[:itemid]
