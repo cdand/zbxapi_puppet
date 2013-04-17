@@ -28,6 +28,10 @@ Puppet::Type.newtype(:zbx_template_item) do
     EOT
   end
 
+  autorequire(:zbx_template) do
+    self[:template]
+  end
+
   newproperty(:delay) do
 		#TODO verify integer > 60
     desc <<-EOT
