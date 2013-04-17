@@ -40,7 +40,7 @@ Puppet::Type.type(:zbx_template_discoveryrule).provide(:zbxapi) do
            :snmpv3_privpassphrase => discoveryrule["snmpv3_privpassphrase"],
            :snmpv3_securitylevel  => discoveryrule["snmpv3_securitylevel"],
            :snmpv3_securityname   => discoveryrule["snmpv3_securityname"],
-           :status                => discoveryrule["status"],
+           :enabled               => discoveryrule["status"],
            :templateid            => discoveryrule["templateid"],
            :trapper_hosts         => discoveryrule["trapper_hosts"],
            :username              => discoveryrule["username"],
@@ -86,7 +86,7 @@ Puppet::Type.type(:zbx_template_discoveryrule).provide(:zbxapi) do
                                   'snmpv3_privpassphrase' => resource[:snmpv3_privpassphrase],
                                   'snmpv3_securitylevel'  => resource[:snmpv3_securitylevel],
                                   'snmpv3_securityname'   => resource[:snmpv3_securityname],
-                                  'status'                => resource[:status],
+                                  'status'                => resource[:enabled],
                                   'trapper_hosts'         => resource[:trapper_hosts],
                                   'username'              => resource[:username],
                                 )
@@ -190,7 +190,7 @@ Puppet::Type.type(:zbx_template_discoveryrule).provide(:zbxapi) do
     @property_flush['snmpv3_securityname'] = value
   end
 
-  def status=(value)
+  def enabled=(value)
     @property_flush['status'] = value
   end
 

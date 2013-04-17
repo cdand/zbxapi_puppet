@@ -270,7 +270,7 @@ Puppet::Type.newtype(:zbx_template_discoveryrule) do
     EOT
   end
 
-  newproperty(:status) do
+  newproperty(:enabled) do
     desc <<-EOT
       Status of the LLD rule. 
 
