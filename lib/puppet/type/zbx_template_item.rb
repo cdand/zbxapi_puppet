@@ -161,7 +161,6 @@ Puppet::Type.newtype(:zbx_template_item) do
         1
       end
     end
-
   end
 
   newproperty(:data_type) do
@@ -175,7 +174,7 @@ Puppet::Type.newtype(:zbx_template_item) do
     EOT
     defaultto 'decimal'
     newvalues( 'decimal', 'octal', 'hexadecimal', 'boolean' )
-    mungo do |value|
+    munge do |value|
       case value
       when 'decimal'
         0
@@ -209,12 +208,14 @@ Puppet::Type.newtype(:zbx_template_item) do
     newvalues( 'as is', 'delta', 'simple delta' )
     munge do |value|
       case value
-      when 'as is'
-        0
-      when 'delta'
-        1
-      when 'simple delta'
-        2
+        when 'as is'
+          0
+        when 'delta'
+          1
+        when 'simple delta'
+          2
+			end
+    end
   end
 
   newproperty(:description) do
@@ -447,19 +448,19 @@ Puppet::Type.newtype(:zbx_template_item) do
       1536 as 1.5KB/1.5KBps
 
       Special processing is used if the following time-related units are used:
-      unixtime - translated to “yyyy.mm.dd hh:mm:ss”. To translate correctly, the
+      unixtime - translated to "yyyy.mm.dd hh:mm:ss". To translate correctly, the
       received value must be a Numeric (unsigned) type of information.
 
-      uptime - translated to “hh:mm:ss” or “N days, hh:mm:ss” For example, if you
-      receive the value as 881764 (seconds), it will be displayed as “10 days,
-      04:56:04”
+      uptime - translated to "hh:mm:ss" or "N days, hh:mm:ss" For example, if you
+      receive the value as 881764 (seconds), it will be displayed as "10 days,
+      04:56:04"
 
-      s - translated to “yyy mmm ddd hhh mmm sss ms”; parameter is treated as number
+      s - translated to "yyy mmm ddd hhh mmm sss ms"; parameter is treated as number
       of seconds.  For example, if you receive the value as 881764 (seconds), it will
-      be displayed as “10d 4h 56m” Only 3 upper major units are shown, like “1m 15d
-      5h” or “2h 4m 46s”. If there are no days to display, only two levels are
-      displayed - “1m 5h” (no minutes, seconds or milliseconds are shown). Will be
-      translated to ”< 1 ms” if the value is less than 0.001.
+      be displayed as "10d 4h 56m" Only 3 upper major units are shown, like "1m 15d
+      5h" or "2h 4m 46s". If there are no days to display, only two levels are
+      displayed - "1m 5h" (no minutes, seconds or milliseconds are shown). Will be
+      translated to "< 1 ms" if the value is less than 0.001.
 
       See also the unit blacklist.
     EOT
