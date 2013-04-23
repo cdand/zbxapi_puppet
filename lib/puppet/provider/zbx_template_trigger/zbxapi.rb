@@ -3,14 +3,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'pu
 Puppet::Type.type(:zbx_template_trigger).provide(:zbxapi) do
 
   def self.instances
-    # We pull in a list of all templates here so that we can set the value of
-    #@property_flush[:template] to satisfy Puppet's desire to change/set this.
-    #This add computational complexity, but saves having thousands of API calls
-    #later on.
-#    templates = $zabbix.template.get( 'output' => 'extend' )
     triggers = $zabbix.trigger.get( 'output' => 'extend', 'templated' => true, 'inherited' => false, 'selectHosts' => 'expand', 'expandExpression' => true, 'expandData' => true )
     triggers.collect do |trigger|
-#      template = templates.detect { |template| template["hostid"] == trigger["hostid"] }["host"]
       new( :name            => trigger["description"],
            :ensure          => :present,
            :triggerid       => trigger["triggerid"],
