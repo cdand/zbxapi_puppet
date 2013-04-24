@@ -128,7 +128,7 @@ Puppet::Type.newtype(:zbx_template_item) do
     'text'
     EOT
     defaultto 'numeric unsigned'
-    newvalues()
+    newvalues( 'numeric float', 'character', 'log', 'numeric unsigned', 'text' )
     munge do |value|
       case value
       when 'numeric float'
