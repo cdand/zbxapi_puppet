@@ -28,6 +28,11 @@ Puppet::Type.newtype(:zbx_template_itemprototype) do
     EOT
   end
 
+  autorequire(:zbx_template_discoveryrule) do
+		# Ensure the discovery rule is created before creating the prototypes
+    self[:discovery_rule]
+  end
+
   newproperty(:delay) do
 		#TODO verify integer > 60
     desc <<-EOT
