@@ -1,5 +1,9 @@
 Puppet::Type.newtype(:zbx_template_item) do
 
+  def self.title_patterns
+    [ [ /^(.+):(.+)$/, [ [ :template, lambda{|x| x} ], [ :name, lambda{|x| x} ] ] ] ]
+  end
+
   desc 'zbx_template_item is used to manage the items contained within a Zabbix Template'
 
   ensurable
@@ -22,7 +26,7 @@ Puppet::Type.newtype(:zbx_template_item) do
     EOT
   end
 
-  newproperty(:template) do
+  newproperty(:template, :namevar => true) do
     desc <<-EOT
       Name of the template that the item belongs to.
     EOT

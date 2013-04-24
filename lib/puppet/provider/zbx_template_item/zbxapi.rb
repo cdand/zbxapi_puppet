@@ -11,7 +11,8 @@ Puppet::Type.type(:zbx_template_item).provide(:zbxapi) do
     items = $zabbix.item.get( 'output' => 'extend', 'templated' => true, 'inherited' => false )
     items.collect do |item|
       template = templates.detect { |template| template["hostid"] == item["hostid"] }["host"]
-      new( :name                   => item["name"],
+			name = template + ":" + item["name"]
+      new( :name                   => name,
            :ensure                 => :present,
            :itemid                 => item["itemid"],
            :hostid                 => item["hostid"],
@@ -57,6 +58,8 @@ Puppet::Type.type(:zbx_template_item).provide(:zbxapi) do
 
   def self.prefetch(resources)
     items = instances
+		puts items
+		puts resources.class
     resources.keys.each do |name|
       if provider = items.find{ |item| item.name == name }
         resources[name].provider = provider
