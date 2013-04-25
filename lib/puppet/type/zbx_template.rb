@@ -49,4 +49,8 @@ Puppet::Type.newtype(:zbx_template) do
     defaultto []
   end
 
+  autorequire(:zbx_template) do
+    self[:parents]
+  end
+
 end
