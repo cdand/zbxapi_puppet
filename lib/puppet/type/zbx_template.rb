@@ -21,9 +21,9 @@ Puppet::Type.newtype(:zbx_template) do
       
       (default) ['Templates']
       
-      e.g. ['Templates', 'Linux templates']
+      e.g. ['Linux templates', 'Templates']
       
-      Note, currently the array must be in Hostgroup ID numerical order. If you
+      Note, currently the array must be in Template name alphabetical order. If you
       see Puppet reports frequently changing a Template's group check the order in
       which Puppet says it is changing them from and to.
     EOT

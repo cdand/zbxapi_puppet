@@ -18,7 +18,7 @@ Puppet::Type.type(:zbx_template).provide(:zbxapi) do
            :templateid  => template["templateid"],
            :visiblename => template["name"],
            :hostgroups  => hostgroups,
-           :parents     => parents,
+           :parents     => parents.sort,
       )
     end
   end
