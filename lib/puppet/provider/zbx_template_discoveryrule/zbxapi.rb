@@ -204,7 +204,7 @@ Puppet::Type.type(:zbx_template_discoveryrule).provide(:zbxapi) do
 
   def flush
     unless @property_flush.empty?
-      @property_flush['discoveryruleid'] = @property_hash[:itemid]
+      @property_flush['itemid'] = @property_hash[:itemid]
       $zabbix.discoveryrule.update( @property_flush )
     end
     @property_hash = resource.to_hash
